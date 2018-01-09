@@ -61,7 +61,7 @@ def get_word_sequence_batch(data, batch_size, sequence_length):
 
     for i in range(0, len(data)):
         index = random.randint(0, len(data) - 1)
-        batch.append(get_word_sequence(data[i], sequence_length))
+        batch.append(get_word_sequence(data[index], sequence_length))
 
     return batch
 
