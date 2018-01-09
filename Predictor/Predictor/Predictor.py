@@ -51,7 +51,6 @@ with tf.Session() as session:
         trainingData = []
         trainingLabels = []
 
-        print(len(batchAsNumbers))
         for b in range(0, batch_size):
 
             t = np.reshape(batchAsNumbers[b][0], newshape=[sequence_length, 1])
