@@ -38,7 +38,7 @@ def build_word_dictionary(allData):
                 dict[chunk] = key
                 key = key + 1
     
-    return dict
+    return dict, {v: k for k, v in dict.items()}
 
 def get_word_sequence(data, numWords):
 

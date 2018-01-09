@@ -7,7 +7,7 @@ batch_size = 3
 cellHiddenLayerSize = 512
 
 data = data_reader.read_training_data('TrainingData.txt')
-dict = data_reader.build_word_dictionary(data)
+dict, reverse_dict = data_reader.build_word_dictionary(data)
 vocabSize = len(dict)
 
 # multilayer cell construction.
@@ -62,11 +62,17 @@ with tf.Session() as session:
 
         _, l = session.run([optimizer, finalLayer], feed_dict={x: trainingData, y: trainingLabels})
 
-        if i % 10 == 0:
-            predictions = np.argmax(l, 1)
-            truth = np.argmax(trainingLabels, 1)
+        if i % 100 == 0:
 
-            print(str(predictions) + "-->" + str(truth))
-        
+            for b in range(0, batch_size):
+                print("=================================")
+                before = ' '.join([a for a in batch[b][0]]).strip()
+                expected = batch[b][1]
+
+                predictionIndex = np.argmax(l[b])
+                print(before + " " + expected + "|" + reverse_dict[predictionIndex])
+                print("==================================")
+                print("")
+
 print()
 
