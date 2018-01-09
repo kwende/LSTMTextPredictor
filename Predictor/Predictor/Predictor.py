@@ -41,6 +41,8 @@ with tf.Session() as session:
     session.run(tf.global_variables_initializer())
     session.run(tf.initialize_all_variables())
 
+    saver = tf.train.Saver()
+
     for i in range(0, 50000):
 
         batch = data_reader.get_word_sequence_batch(data, batch_size, sequence_length)
@@ -73,6 +75,8 @@ with tf.Session() as session:
                 print(before + " " + expected + "|" + reverse_dict[predictionIndex])
                 print("==================================")
                 print("")
+
+            saver.save(session, "/home/brush/training/model.ckpt")
 
 print()
 
