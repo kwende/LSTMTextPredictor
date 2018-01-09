@@ -48,9 +48,6 @@ with tf.Session() as session:
         batch = data_reader.get_word_sequence_batch(data, batch_size, sequence_length)
         batchAsNumbers = data_reader.convert_batch_to_numbers(batch, dict)
 
-        if len(batchAsNumbers) < batch_size:
-            print()
-
         trainingData = []
         trainingLabels = []
 
