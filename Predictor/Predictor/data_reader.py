@@ -11,15 +11,18 @@ def read_training_data(path):
         allLines = file.readlines()
 
         for line in allLines:
+
+            lineToUse = line.strip()
+
             if line.startswith("\n"):
                 if len(text) > 0:
                     ret.append(text.strip())
                 text = ""
             else:
                 if text.endswith(" "):
-                    text = text + line
+                    text = text + lineToUse
                 else:
-                    text = text + line + " "
+                    text = text + lineToUse + " "
 
     if len(text) > 0:
         ret.append(text.strip())

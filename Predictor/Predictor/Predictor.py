@@ -48,10 +48,15 @@ with tf.Session() as session:
         batch = data_reader.get_word_sequence_batch(data, batch_size, sequence_length)
         batchAsNumbers = data_reader.convert_batch_to_numbers(batch, dict)
 
+        if len(batchAsNumbers) < batch_size:
+            print()
+
         trainingData = []
         trainingLabels = []
 
+        print(len(batchAsNumbers))
         for b in range(0, batch_size):
+
             t = np.reshape(batchAsNumbers[b][0], newshape=[sequence_length, 1])
             trainingData.append(t)
 
