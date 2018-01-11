@@ -29,6 +29,16 @@ def read_training_data(path):
 
     return ret
 
+def sentence_to_keys(sentence, dict, lastN):
+    chunks = re.findall(r"[\w']+|[.,!?;]", sentence)
+
+    ret = []
+    for i in range(len(chunks)-lastN, len(chunks)):
+        ret.append(dict[chunks[i]])
+
+    return ret
+
+
 def build_word_dictionary(allData):
 
     dict = {}
