@@ -44,7 +44,7 @@ def train():
 
         saver = tf.train.Saver()
 
-        for i in range(0, 50000):
+        for i in range(0, 200000):
 
             batch = data_reader.get_word_sequence_batch(data, batch_size, sequence_length)
             batchAsNumbers = data_reader.convert_batch_to_numbers(batch, dict)
@@ -85,7 +85,7 @@ def predict():
     data = data_reader.read_training_data('TrainingData.txt')
     dict, reverse_dict = data_reader.build_word_dictionary(data)
 
-    sentence = "I like men"
+    sentence = "Why did the"
     phrase = data_reader.sentence_to_keys(sentence, dict, 3)
     input = np.reshape(phrase, newshape=[len(phrase), 1])
 
