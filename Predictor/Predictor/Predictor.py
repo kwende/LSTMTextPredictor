@@ -85,7 +85,7 @@ def predict():
     data = data_reader.read_training_data('TrainingData.txt')
     dict, reverse_dict = data_reader.build_word_dictionary(data)
 
-    sentence = "What do men"
+    sentence = "I like men"
     phrase = data_reader.sentence_to_keys(sentence, dict, 3)
     input = np.reshape(phrase, newshape=[len(phrase), 1])
 
@@ -97,8 +97,8 @@ def predict():
     xInput = np.reshape(xInput, newshape=[3, len(phrase), 1])
 
     with tf.Session() as session:
-        saver = tf.train.import_meta_graph("c:/users/brush/desktop/languageLearn/model.ckpt.meta")
-        saver.restore(session, tf.train.latest_checkpoint("c:/users/brush/desktop/languageLearn"))
+        saver = tf.train.import_meta_graph("c:/users/ben/desktop/training/model.ckpt.meta")
+        saver.restore(session, tf.train.latest_checkpoint("c:/users/ben/desktop/training/"))
 
         graph = tf.get_default_graph()
         finalLayer = graph.get_tensor_by_name('add:0')
