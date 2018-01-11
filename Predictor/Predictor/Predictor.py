@@ -3,7 +3,7 @@ import numpy as np
 import data_reader
 
 def train():
-    sequence_length = 3
+    sequence_length = 5
     batch_size = 3
     cellHiddenLayerSize = 512
 
@@ -24,7 +24,11 @@ def train():
     y = tf.placeholder(dtype=tf.float32, shape=[batch_size, vocabSize])
 
     # create the operation for handling the cells. 
-    x1 = tf.split(tf.reshape(x, [-1, batch_size]), sequence_length, 1)
+    #
+    #x1 = tf.split(toSplit, sequence_length, 1)
+
+    toSplit = tf.reshape(x, [batch_size, sequence_length])
+    x1 = tf.split(toSplit, sequence_length, 1)
     output, states = tf.contrib.rnn.static_rnn(cell=multiCell, inputs=x1, dtype=tf.float32)
 
     # output layer. this will squash the values to the len(dict) size. 
@@ -64,7 +68,7 @@ def train():
             trainingData = np.reshape(trainingData, [batch_size, sequence_length, 1])
             trainingLabels = np.reshape(trainingLabels, [batch_size, vocabSize])
 
-            _, l = session.run([optimizer, finalLayer], feed_dict={x: trainingData, y: trainingLabels})
+            _, l, s, x_ = session.run([optimizer, finalLayer, toSplit, x], feed_dict={x: trainingData, y: trainingLabels})
 
             if i % 100 == 0:
 
@@ -85,7 +89,7 @@ def predict():
     data = data_reader.read_training_data('TrainingData.txt')
     dict, reverse_dict = data_reader.build_word_dictionary(data)
 
-    sentence = "What do we"
+    sentence = "What did the vampire"
     phrase = data_reader.sentence_to_keys(sentence, dict, 3)
     input = np.reshape(phrase, newshape=[len(phrase), 1])
 
@@ -104,12 +108,15 @@ def predict():
         finalLayer = graph.get_tensor_by_name('add:0')
         x = graph.get_tensor_by_name("Placeholder:0")
 
-        for a in range(0, 10):
+        for _ in range (0, 50):
 
             result = session.run([finalLayer], feed_dict={x: xInput})
             predicted = reverse_dict[np.argmax(result[0])]
 
             sentence = sentence + " " + predicted
+
+            if predicted == ".":
+                break
 
             phrase = data_reader.sentence_to_keys(sentence, dict, 3)
             input = np.reshape(phrase, newshape=[len(phrase), 1])
@@ -123,5 +130,5 @@ def predict():
 
         print(sentence)
 
-#train()
-predict()
+train()
+#predict()
