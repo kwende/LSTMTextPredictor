@@ -85,7 +85,7 @@ def predict():
     data = data_reader.read_training_data('TrainingData.txt')
     dict, reverse_dict = data_reader.build_word_dictionary(data)
 
-    sentence = "Why did the"
+    sentence = "What do we"
     phrase = data_reader.sentence_to_keys(sentence, dict, 3)
     input = np.reshape(phrase, newshape=[len(phrase), 1])
 
