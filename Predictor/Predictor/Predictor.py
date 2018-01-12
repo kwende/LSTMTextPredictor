@@ -48,7 +48,7 @@ def train():
 
         saver = tf.train.Saver()
 
-        for i in range(0, 200000):
+        for i in range(0, 5000000):
 
             batch = data_reader.get_word_sequence_batch(data, batch_size, sequence_length)
             batchAsNumbers = data_reader.convert_batch_to_numbers(batch, dict)
@@ -89,8 +89,11 @@ def predict():
     data = data_reader.read_training_data('TrainingData.txt')
     dict, reverse_dict = data_reader.build_word_dictionary(data)
 
-    sentence = "What did the vampire"
-    phrase = data_reader.sentence_to_keys(sentence, dict, 3)
+    sentence = "What do you call"
+
+    sequence_length = 5
+
+    phrase = data_reader.sentence_to_keys(sentence, dict, sequence_length)
     input = np.reshape(phrase, newshape=[len(phrase), 1])
 
     xInput = []
@@ -98,7 +101,7 @@ def predict():
     xInput.append(input)
     xInput.append(input)
 
-    xInput = np.reshape(xInput, newshape=[3, len(phrase), 1])
+    xInput = np.reshape(xInput, newshape=[3, sequence_length, 1])
 
     with tf.Session() as session:
         saver = tf.train.import_meta_graph("c:/users/ben/desktop/training/model.ckpt.meta")
@@ -118,7 +121,7 @@ def predict():
             if predicted == ".":
                 break
 
-            phrase = data_reader.sentence_to_keys(sentence, dict, 3)
+            phrase = data_reader.sentence_to_keys(sentence, dict, sequence_length)
             input = np.reshape(phrase, newshape=[len(phrase), 1])
 
             xInput = []
@@ -126,7 +129,7 @@ def predict():
             xInput.append(input)
             xInput.append(input)
 
-            xInput = np.reshape(xInput, newshape=[3, len(phrase), 1])
+            xInput = np.reshape(xInput, newshape=[3, sequence_length, 1])
 
         print(sentence)
 
