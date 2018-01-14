@@ -89,17 +89,16 @@ def predict():
     data = data_reader.read_training_data('TrainingData.txt')
     dict, reverse_dict = data_reader.build_word_dictionary(data)
 
-    sentence = "What do you call"
-
     sequence_length = 5
+    sentence = input("Enter first " + str(sequence_length) + " words:")
 
     phrase = data_reader.sentence_to_keys(sentence, dict, sequence_length)
-    input = np.reshape(phrase, newshape=[len(phrase), 1])
+    reshaped = np.reshape(phrase, newshape=[len(phrase), 1])
 
     xInput = []
-    xInput.append(input)
-    xInput.append(input)
-    xInput.append(input)
+    xInput.append(reshaped)
+    xInput.append(reshaped)
+    xInput.append(reshaped)
 
     xInput = np.reshape(xInput, newshape=[3, sequence_length, 1])
 
@@ -111,27 +110,27 @@ def predict():
         finalLayer = graph.get_tensor_by_name('add:0')
         x = graph.get_tensor_by_name("Placeholder:0")
 
-        for _ in range (0, 50):
+        for _ in range (0, 150):
 
             result = session.run([finalLayer], feed_dict={x: xInput})
             predicted = reverse_dict[np.argmax(result[0])]
 
             sentence = sentence + " " + predicted
 
-            if predicted == ".":
-                break
+            #if predicted == ".":
+            #    break
 
             phrase = data_reader.sentence_to_keys(sentence, dict, sequence_length)
-            input = np.reshape(phrase, newshape=[len(phrase), 1])
+            reshaped = np.reshape(phrase, newshape=[len(phrase), 1])
 
             xInput = []
-            xInput.append(input)
-            xInput.append(input)
-            xInput.append(input)
+            xInput.append(reshaped)
+            xInput.append(reshaped)
+            xInput.append(reshaped)
 
             xInput = np.reshape(xInput, newshape=[3, sequence_length, 1])
 
         print(sentence)
 
-train()
-#predict()
+#train()
+predict()
