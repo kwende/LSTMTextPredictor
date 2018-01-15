@@ -82,7 +82,9 @@ def train():
                     print("==================================")
                     print("")
 
+                # https://github.com/migueldeicaza/TensorFlowSharp/issues/85
                 saver.save(session, "/home/brush/training/model.ckpt")
+                tf.train.write_graph(session.graph_def, "/home/brush/training/logdir", "Profile.pb", as_text=True)
 
 def predict():
 
